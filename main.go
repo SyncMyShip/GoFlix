@@ -7,15 +7,14 @@ import (
 	"math/rand/v2"
 	"net/http"
 	"strconv"
-
 	"github.com/gorilla/mux"
 )
 
 type Movie struct {
 	ID string `json:"id"`
 	Title string `json:"title"`
-	Director *Director `json:"director"`
 	Year uint `json:"year"`
+	Director *Director `json:"director"`
 }
 
 type Director struct {
@@ -31,7 +30,7 @@ func getMovies(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(movies)
 }
 
-// PATCH: create a new movie
+// POST: create a new movie
 func createMovie(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var movie Movie
@@ -46,12 +45,12 @@ func createMovie(w http.ResponseWriter, r *http.Request) {
 func main() {
 	r := mux.NewRouter()
 	// TO DO - homepage 
-	r.HandleFunc("movies", getMovies).Methods("GET")
-	// r.HandleFunc("movies/{id}", getMovie).Methods("GET")
-	r.HandleFunc("movies", createMovie).Methods("POST")
-	// r.HandleFunc("movies/{id}", updateMovie).Methods("PUT")
-	// r.HandleFunc("movies/{id}", deleteMovie).Methods("DELETE")
+	r.HandleFunc("/movies", getMovies).Methods("GET")
+	// r.HandleFunc("/movies/{id}", getMovie).Methods("GET")
+	r.HandleFunc("/movies", createMovie).Methods("POST")
+	// r.HandleFunc("/movies/{id}", updateMovie).Methods("PUT")
+	// r.HandleFunc("/movies/{id}", deleteMovie).Methods("DELETE")
 
-	fmt.Println("starting server on port 8000")
+	fmt.Println("starting server on port 8000...")
 	log.Fatal(http.ListenAndServe(":8000", r))
 }
